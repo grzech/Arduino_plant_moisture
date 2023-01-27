@@ -18,6 +18,7 @@ steps:
       cargo install cargo2junit
     displayName: Install cargo2junit
   - script: |
+      rustup install nightly
       rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
       rustup override set nightly
     displayName: Set compiler to nightly
