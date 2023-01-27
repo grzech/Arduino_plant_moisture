@@ -1,0 +1,27 @@
+[package]
+name = "plant_moisture_system"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# A panic handler is needed.  This is a crate with the most basic one.
+panic-halt = "0.2.0"
+
+[dependencies.arduino-hal]
+git = "https://github.com/rahix/avr-hal"
+rev = "4c9c44c314eb061ee20556ef10d45dea36e75ee4"
+features = ["arduino-uno"]
+
+[build]
+target = "avr_atmega328p.json"
+
+[unstable]
+build-std = ["core"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"

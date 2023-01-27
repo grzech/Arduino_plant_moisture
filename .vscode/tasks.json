@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "cargo build -Z build-std=core --target avr_atmega328p.json --release",
+			"group": "build",
+			"label": "Build",
+			"problemMatcher": "$rustc"
+		},
+		{
+			"type": "shell",
+			"command": "./flash.sh",
+			"args": [
+				"target/avr_atmega328p/release/plant_moisture_system.elf"
+			],
+			"label": "Flash",
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"command": "cargo test",
+			"label": "UnitTests",
+			"problemMatcher": []
+		}
+	]
+}
