@@ -18,6 +18,9 @@ steps:
       cargo install cargo2junit
     displayName: Install cargo2junit
   - script: |
+      sudo apt install avr-libc gcc-avr pkg-config avrdude libudev-dev build-essential
+    displayName: Install avr toolchain
+  - script: |
       rustup install nightly
       rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
       rustup override set nightly
