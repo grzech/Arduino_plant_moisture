@@ -17,6 +17,9 @@ steps:
   - script: |
       cargo install cargo2junit
     displayName: Install cargo2junit
+  - script: |
+      rustup override set nightly
+    displayName: Set compiler to nightly
   - script: cargo build --all
     displayName: Cargo build
   - script: cargo test -- -Z unstable-options --format json --report-time | cargo2junit > results.xml
