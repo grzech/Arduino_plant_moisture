@@ -8,7 +8,7 @@ use panic_halt as _;
 use ufmt;
 use arduino_hal as ah;
 
-//#[cfg(not(test))]
+#[cfg(not(test))]
 #[ah::entry]
 fn main() -> ! {
     let dp = ah::Peripherals::take().unwrap();
