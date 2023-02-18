@@ -12,18 +12,13 @@ fn main() -> ! {
     let dp = arduino_hal::Peripherals::take().unwrap();
     let pins = arduino_hal::pins!(dp);
 
-    let mut led = pins.d13.into_output();
     let mut serial = arduino_hal::default_serial!(dp, pins, 115200);
-    let mut i = 0u16;
+    let mut adc = arduino_hal::Adc::new(dp.ADC, Default::default());
+    let water_level = pins.a2.into_analog_input(&mut adc);
     loop {
-        led.toggle();
         arduino_hal::delay_ms(1000);
-        ufmt::uwriteln!(&mut serial, "Hello for {} time", i).unwrap();
-        if i < u16::MAX {
-            i += 1;
-        } else {
-            i = 0;
-        }
+        let voltage = water_level.analog_read(&mut adc);
+        ufmt::uwriteln!(&mut serial, "Voltage from ADC: {}", voltage).unwrap();
     }
 }
 
