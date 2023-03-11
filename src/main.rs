@@ -21,6 +21,26 @@ struct WaterLevel {
     level : Pin<Analog, ADC2>,
 }
 
+enum SoilState {
+    DRY = 600,
+    MIDDLE,
+    WET = 400,
+}
+
+fn get_soil_state(sensor: &Pin<Analog, ADC1>, adc: &mut ah::Adc) -> SoilState {
+    let voltage = sensor.analog_read(adc);
+    if voltage >= SoilState::DRY as u16 {
+        return SoilState::DRY;
+    } else if voltage <= SoilState::WET as u16{
+        return SoilState::WET
+    }
+    return SoilState::MIDDLE;
+}
+
+fn water_the_plant() {
+
+}
+
 impl WaterLevel {
     const THRESHOLD_HIGH : u16 = 550;
     const THRESHOLD_MEDIUM : u16 = WaterLevel::THRESHOLD_HIGH-1;
@@ -77,10 +97,10 @@ fn main() -> ! {
     loop {
         ah::delay_ms(1000);
         water_measure.update(&mut adc);
-        //let voltage = water_level.analog_read(&mut adc);
-        //ufmt::uwriteln!(&mut serial, "Water level: {}", voltage).unwrap();
-        let voltage = soil_moisture.analog_read(&mut adc);
-        ufmt::uwriteln!(&mut serial, "Soil moisture: {}", voltage).unwrap();
+        if let SoilState::DRY = get_soil_state(&soil_moisture, &mut adc) {
+            water_the_plant();
+            ufmt::uwriteln!(&mut serial, "Water the plant").unwrap();
+        }
     }
 }
 
