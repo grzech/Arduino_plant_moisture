@@ -18,6 +18,9 @@ features = ["arduino-uno"]
 [build]
 target = "avr_atmega328p.json"
 
+[build-dependencies.proc-macro2]
+version = "=1.0.79"
+
 [unstable]
 build-std = ["core"]
 
